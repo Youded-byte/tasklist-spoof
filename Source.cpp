@@ -75,7 +75,7 @@ int main() {
 		) {
 		HANDLE m_hreadDataFromExtProgram = CreateThread(0, 0, readDataFromExtProgram, m_hChildStd_OUT_Rd, 0, NULL);
 		if (!WaitForSingleObject(pi.hProcess, 20000)) {
-			//std::cout << "Process quit! not create process!";
+			//std::cout << "Process quit!";
 			return 1;
 		}
 		else {
