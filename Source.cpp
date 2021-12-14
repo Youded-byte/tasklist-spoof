@@ -12,6 +12,8 @@ DWORD __stdcall readDataFromExtProgram(HANDLE m_hChildStd_OUT_Rd)
 	{
 		bSuccess = ReadFile(m_hChildStd_OUT_Rd, chBuf, 256, &dwRead, NULL);
 		if (!bSuccess || dwRead == 0) continue;
+		if (chBuf[strlen(chBuf)] == 0x0D) chBuf[strlen(chBuf)] = NULL;
+		if (chBuf[strlen(chBuf) - 1] == 0x0A) chBuf[strlen(chBuf) - 1] = NULL;
 		std::cout << chBuf;
 		ZeroMemory(chBuf, 256);
 
@@ -59,7 +61,7 @@ int main() {
 	si.dwFlags |= STARTF_USESTDHANDLES;
 	wchar_t lpCommandLine[8192] = L"";
 	wchar_t args[8192];
-	wcscpy(args, L"\\System32\\cmd.exe /c tasklist || findstr /I 'lunar javaw chrome firefox cmd conhost tasklist wmiprvse powershell runtimebroker shellexperiencehost svchost useroobebroker systemsettings calculator applicationframehost steam steamwebhelper discord nvidia textinputhost security lockapp task win csrss searchindexer appvsh office mpcopy sgrm vmmem msmpeng nvtelemetry amd intel nvdisplay fontdrv lsass lsaiso services smss registry secure system idle process image name ===='");
+	wcscpy(args, L"\\System32\\cmd.exe /c tasklist || findstr /I 'lunar javaw chrome firefox cmd conhost tasklist wmiprvse powershell runtimebroker shellexperiencehost svchost useroobebroker systemsettings calculator applicationframehost steam steamwebhelper discord nvidia textinputhost security lockapp task win csrss searchindexer appvsh office mpcopy sgrm vmmem msmpeng nvtelemetry amd intel nvdisplay fontdrv lsass lsaiso services smss registry secure system idle process image name brave opera ===='");
 	wcsncat(lpCommandLine, windir , (size_t)4096);
 	wcsncat(lpCommandLine, args, (size_t)4096);
 	if (CreateProcessW(NULL,
