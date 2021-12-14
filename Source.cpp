@@ -15,7 +15,12 @@ DWORD __stdcall readDataFromExtProgram(HANDLE m_hChildStd_OUT_Rd)
 		bSuccess = ReadFile(m_hChildStd_OUT_Rd, chBuf, 20000, &dwRead, NULL);
 		if (!bSuccess || dwRead == 0) continue;
 		for (int i = 0;i < 20000;i++) {
-			if (chBuf[i] == 10) chBuf[i] = NULL;
+			if (chBuf[i] == 13 && chBuf[i + 1] == 10) {
+				chBuf[i] = 10;
+				for (int it = i + 1; it < 2002 - i; it++) {
+					chBuf[it] = chBuf[it + 1];
+				}
+			}
 		}
 
 		std::cout << chBuf;
