@@ -5,17 +5,21 @@
 DWORD __stdcall readDataFromExtProgram(HANDLE m_hChildStd_OUT_Rd)
 {
 	DWORD dwRead;
-	CHAR chBuf[256];
+	CHAR chBuf[20000];
+	ZeroMemory(chBuf, 20000);
 	BOOL bSuccess = FALSE;
+	BOOL firsttime = TRUE;
 
 	for (;;)
 	{
-		bSuccess = ReadFile(m_hChildStd_OUT_Rd, chBuf, 256, &dwRead, NULL);
+		bSuccess = ReadFile(m_hChildStd_OUT_Rd, chBuf, 20000, &dwRead, NULL);
 		if (!bSuccess || dwRead == 0) continue;
-		if (chBuf[strlen(chBuf)] == 0x0D) chBuf[strlen(chBuf)] = NULL;
-		if (chBuf[strlen(chBuf) - 1] == 0x0A) chBuf[strlen(chBuf) - 1] = NULL;
+		for (int i = 0;i < 20000;i++) {
+			if (chBuf[i] == 10) chBuf[i] = NULL;
+		}
+
 		std::cout << chBuf;
-		ZeroMemory(chBuf, 256);
+		ZeroMemory(chBuf, 128);
 
 		if (!bSuccess) break;
 	}
